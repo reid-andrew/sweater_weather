@@ -30,8 +30,13 @@ group :development, :test do
   gem 'simplecov'
 end
 
+group :test do
+  gem 'webmock'
+end
+
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'rubocop-rails'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
