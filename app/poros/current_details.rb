@@ -13,8 +13,10 @@ class CurrentDetails
     @sunrise = Time.at(weather[:current][:sunrise]).strftime('%l:%M %p')
     @sunset = Time.at(weather[:current][:sunset]).strftime('%l:%M %p')
     @description = weather[:current][:weather][0][:description]
-    @image = "http://openweathermap.org/img/wn/#{weather[:current][:weather][0][:icon]}@2x.png"
+    @image = calculate_image_url(weather[:current][:weather][0][:icon])
   end
+
+  private
 
   def uv_index_interpreted(weather)
     return 'extreme' if weather[:current][:uvi] >= 11
@@ -26,5 +28,9 @@ class CurrentDetails
     return 'moderate' if weather[:current][:uvi] >= 3
 
     'low'
+  end
+
+  def calculate_image_url(variable)
+    "http://openweathermap.org/img/wn/#{variable}@2x.png"
   end
 end

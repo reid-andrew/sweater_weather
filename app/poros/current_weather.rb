@@ -10,6 +10,12 @@ class CurrentWeather
     @high = weather[:daily][0][:temp][:max]
     @low = weather[:daily][0][:temp][:min]
     @description = weather[:current][:weather][0][:description]
-    @image = "http://openweathermap.org/img/wn/#{weather[:current][:weather][0][:icon]}@2x.png"
+    @image = calculate_image_url(weather[:current][:weather][0][:icon])
+  end
+
+  private
+
+  def calculate_image_url(variable)
+    "http://openweathermap.org/img/wn/#{variable}@2x.png"
   end
 end

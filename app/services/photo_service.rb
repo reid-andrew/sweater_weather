@@ -4,7 +4,11 @@ class PhotoService
 
     def find_photo(location)
       reference = find_photo_reference(location)
-      photo_connection(reference).body
+      base = 'https://maps.googleapis.com/maps/api/place/photo?'
+      width = 'maxwidth=1080'
+      key = "&key=#{ENV['GOOGLE_GEOCODING_KEY']}"
+      photo = "&photoreference=#{reference}"
+      "#{base}#{width}#{key}#{photo}"
     end
 
     def find_photo_reference(location)
@@ -21,15 +25,6 @@ class PhotoService
         req.params['key'] = ENV['GOOGLE_GEOCODING_KEY']
         req.params['inputtype'] = 'textquery'
         req.params['fields'] = 'photos'
-      end
-    end
-
-    def photo_connection(reference)
-      url = 'https://maps.googleapis.com/maps/api/place/photo'
-      Faraday.get(url) do |req|
-        req.params['maxwidth'] = 1600
-        req.params['photoreference'] = reference
-        req.params['key'] = ENV['GOOGLE_GEOCODING_KEY']
       end
     end
   end
