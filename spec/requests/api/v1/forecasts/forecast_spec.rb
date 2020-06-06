@@ -22,6 +22,7 @@ RSpec.describe 'Forecast Endpoint -', type: :request do
     expected = JSON.parse(response.body)
 
     expect(response).to be_successful
+    expect(expected["data"]["id"]).to eq("cleveland, oh - #{weather[:current][:dt]}")
     expect(expected["data"]["attributes"]["city"]).to eq(geocode[:results][0][:address_components][0][:long_name])
     expect(expected["data"]["attributes"]["state"]).to eq(geocode[:results][0][:address_components][2][:short_name])
     expect(expected["data"]["attributes"]["country"]).to eq(geocode[:results][0][:address_components][3][:long_name])

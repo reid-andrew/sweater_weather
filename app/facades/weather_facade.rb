@@ -2,17 +2,18 @@ class WeatherFacade
   attr_reader :id
 
   def initialize(location)
-    @id = location
+    @location = location
     @geocode ||= GeocodingService.find_geocode(location)
     @weather ||= OpenWeatherService.find_weather(@geocode[:results][0][:geometry][:location])
+    @id = "#{location} - #{@weather[:current][:dt]}"
   end
 
   def city
-    @id.gsub(/,.*/, '').capitalize
+    @location.gsub(/,.*/, '').capitalize
   end
 
   def state
-    @id.gsub(/.*,/, '').gsub(' ', '').upcase
+    @location.gsub(/.*,/, '').gsub(' ', '').upcase
   end
 
   def country
