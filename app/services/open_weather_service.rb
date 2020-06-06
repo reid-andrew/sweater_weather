@@ -14,6 +14,7 @@ class OpenWeatherService
         req.params['lat'] = coordinates[:lat]
         req.params['lon'] = coordinates[:lng]
         req.params['exclude'] = 'minutely'
+        req.params['units'] = 'imperial'
         req.params['appid'] = ENV['OPEN_WEATHER_KEY']
       end
     end
