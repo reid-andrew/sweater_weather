@@ -2,26 +2,26 @@ require 'rails_helper'
 
 RSpec.describe 'Gecoding Service: ', type: :feature do
   describe 'As a user when' do
-    it 'I provide an address I want to get back a lat/long' do
-      location = "2401 Ontario St, Cleveland, OH"
-      expected = {"lat": 41.4956363, "lng": -81.6847398}
-      json_response = File.read('spec/fixtures/geocoding_service/2401_ontario.json')
-      stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=2401%2BOntario%2BSt,%2BCleveland,%2BOH&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
+    it 'I provide a location I want to get back a lat/long' do
+      location = "Cleveland, OH"
+      expected = {:lat=>41.49932, :lng=>-81.6943605}
+      json_response = File.read('spec/fixtures/geocoding_service/cleveland_oh.json')
+      stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=Cleveland,%2BOH&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
                   .to_return(status: 200, body: json_response, headers: {})
 
-      geocode = GeocodingService.find_coordinates(location)
-      expect(geocode).to eq(expected)
+      geocode = GeocodingService.find_geocode(location)
+      expect(geocode[:results][0][:geometry][:location]).to eq(expected)
     end
 
-    it 'I provide an incomplete address I want to get back a lat/long' do
+    it 'I provide a different location I want to get back a lat/long' do
       location = "Denver CO"
       expected = {"lat": 39.7392358, "lng": -104.990251}
       json_response = File.read('spec/fixtures/geocoding_service/denver_co.json')
       stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=Denver%2BCO&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
                   .to_return(status: 200, body: json_response, headers: {})
 
-      geocode = GeocodingService.find_coordinates(location)
-      expect(geocode).to eq(expected)
+      geocode = GeocodingService.find_geocode(location)
+      expect(geocode[:results][0][:geometry][:location]).to eq(expected)
     end
 
     it 'I provide only a country I get back a lat/long' do
@@ -31,19 +31,19 @@ RSpec.describe 'Gecoding Service: ', type: :feature do
       stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=italy&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
                   .to_return(status: 200, body: json_response, headers: {})
 
-      geocode = GeocodingService.find_coordinates(location)
-      expect(geocode).to eq(expected)
+      geocode = GeocodingService.find_geocode(location)
+      expect(geocode[:results][0][:geometry][:location]).to eq(expected)
     end
 
-    it 'I provide gibberish I get back an empty hash' do
+    it 'I provide gibberish I get back zero results' do
       location = "4$73f123asdf"
-      expected = {}
+      expected = {:results=>[], :status=>"ZERO_RESULTS"}
       json_response = File.read('spec/fixtures/geocoding_service/no_results.json')
       stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=4$73f123asdf&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
                   .to_return(status: 200, body: json_response, headers: {})
 
-      geocode = GeocodingService.find_coordinates(location)
-      expect(geocode).to eq(expected)
+    geocode = GeocodingService.find_geocode(location)
+    expect(geocode).to eq(expected)
     end
   end
 end
