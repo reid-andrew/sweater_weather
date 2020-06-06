@@ -4,7 +4,7 @@ RSpec.describe 'Open Weather Service: ', type: :feature do
   describe 'As a user when' do
     it 'I a lat/long I get back the weather' do
       coordinates = {lat: 41.4956363, lng: -81.6847398}
-      json_response = File.read('spec/fixtures/open_weather_service/2401_ontario.json')
+      json_response = File.read('spec/fixtures/open_weather_service/cleveland_oh.json')
       stub_request(:get, "https://api.openweathermap.org/data/2.5/onecall?appid=#{ENV['OPEN_WEATHER_KEY']}&exclude=minutely&lat=41.4956363&lon=-81.6847398&units=imperial")
                   .to_return(status: 200, body: json_response, headers: {})
 
