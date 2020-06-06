@@ -68,4 +68,24 @@ RSpec.describe 'Forecast Endpoint -', type: :request do
   it 'only provides 8 hours worth of hourly forecast' do
     expect(@expected["data"]["attributes"]["hourly_forecast"]["attributes"][8]).to eq(nil)
   end
+
+  it 'provides daily forecast for the next 5 days' do
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][0]["day"]).to eq(Time.at(@weather[:daily][0][:dt]).strftime('%A'))
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][0]["description"]).to eq(@weather[:daily][0][:weather][0][:description])
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][0]["image"]).to eq(@weather[:daily][0][:weather][0][:icon])
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][0]["precipitation"]).to eq(0)
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][0]["high_temp"]).to eq(@weather[:daily][0][:temp][:max])
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][0]["low_temp"]).to eq(@weather[:daily][0][:temp][:min])
+
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][4]["day"]).to eq(Time.at(@weather[:daily][4][:dt]).strftime('%A'))
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][4]["description"]).to eq(@weather[:daily][4][:weather][0][:description])
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][4]["image"]).to eq(@weather[:daily][4][:weather][0][:icon])
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][4]["precipitation"]).to eq(@weather[:daily][4][:rain])
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][4]["high_temp"]).to eq(@weather[:daily][4][:temp][:max])
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][4]["low_temp"]).to eq(@weather[:daily][4][:temp][:min])
+  end
+
+  it 'only provides 5 days worth of daily forecast' do
+    expect(@expected["data"]["attributes"]["daily_forecast"]["attributes"][5]).to eq(nil)
+  end
 end

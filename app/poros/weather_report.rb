@@ -49,4 +49,10 @@ class WeatherReport
       attributes: @hourly_forecast
     }
   end
+
+  def daily_forecast
+    {
+      attributes: @daily_forecast
+    }
+  end
 end
