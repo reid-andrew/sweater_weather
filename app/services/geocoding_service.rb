@@ -1,7 +1,7 @@
 class GeocodingService
   class << self
     include Parseable
-    
+
     def find_coordinates(address)
       geocode = parse_json(connection(address))
       return geocode[:results][0][:geometry][:location] if geocode[:results][0]
