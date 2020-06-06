@@ -9,26 +9,32 @@ RSpec.describe 'Forecast Endpoint -', type: :request do
     json_response = File.read('spec/fixtures/open_weather_service/cleveland_oh.json')
     stub_request(:get, "https://api.openweathermap.org/data/2.5/onecall?appid=#{ENV['OPEN_WEATHER_KEY']}&exclude=minutely&lat=41.49932&lon=-81.6943605&units=imperial")
                 .to_return(status: 200, body: json_response, headers: {})
+
+    weather_fixture = File.read('spec/fixtures/open_weather_service/cleveland_oh.json')
+    @weather = JSON.parse(weather_fixture, symbolize_names: true)
+
+    geocode_fixture = File.read('spec/fixtures/geocoding_service/cleveland_oh.json')
+    @geocode = JSON.parse(geocode_fixture, symbolize_names: true)
+
+    get '/api/v1/forecast?location=cleveland, oh'
+    @expected = JSON.parse(response.body)
+  end
+
+  it 'responds with success' do
+    expect(response).to be_successful
+    expect(@expected["data"]["id"]).to eq("cleveland, oh - #{@weather[:current][:dt]}")
+  end
+
+  it 'provides location information for a city' do
+    expect(@expected["data"]["attributes"]["location"]["city"]).to eq(@geocode[:results][0][:address_components][0][:long_name])
+    expect(@expected["data"]["attributes"]["location"]["state"]).to eq(@geocode[:results][0][:address_components][2][:short_name])
+    expect(@expected["data"]["attributes"]["location"]["country"]).to eq(@geocode[:results][0][:address_components][3][:long_name])
   end
 
   it 'provides current_conditions for a city' do
-    weather_fixture = File.read('spec/fixtures/open_weather_service/cleveland_oh.json')
-    weather = JSON.parse(weather_fixture, symbolize_names: true)
-
-    geocode_fixture = File.read('spec/fixtures/geocoding_service/cleveland_oh.json')
-    geocode = JSON.parse(geocode_fixture, symbolize_names: true)
-
-    get '/api/v1/forecast?location=cleveland, oh'
-    expected = JSON.parse(response.body)
-
-    expect(response).to be_successful
-    expect(expected["data"]["id"]).to eq("cleveland, oh - #{weather[:current][:dt]}")
-    expect(expected["data"]["attributes"]["location"]["city"]).to eq(geocode[:results][0][:address_components][0][:long_name])
-    expect(expected["data"]["attributes"]["location"]["state"]).to eq(geocode[:results][0][:address_components][2][:short_name])
-    expect(expected["data"]["attributes"]["location"]["country"]).to eq(geocode[:results][0][:address_components][3][:long_name])
-    expect(expected["data"]["attributes"]["current_weather"]["time"]).to eq(Time.at(weather[:current][:dt]).strftime('%l:%M %p, %B%e'))
-    expect(expected["data"]["attributes"]["current_weather"]["current_temp"]).to eq(weather[:current][:temp])
-    expect(expected["data"]["attributes"]["current_weather"]["high"]).to eq(weather[:daily][0][:temp][:max])
-    expect(expected["data"]["attributes"]["current_weather"]["low"]).to eq(weather[:daily][0][:temp][:min])
+    expect(@expected["data"]["attributes"]["current_weather"]["time"]).to eq(Time.at(@weather[:current][:dt]).strftime('%l:%M %p, %B%e'))
+    expect(@expected["data"]["attributes"]["current_weather"]["current_temp"]).to eq(@weather[:current][:temp])
+    expect(@expected["data"]["attributes"]["current_weather"]["high"]).to eq(@weather[:daily][0][:temp][:max])
+    expect(@expected["data"]["attributes"]["current_weather"]["low"]).to eq(@weather[:daily][0][:temp][:min])
   end
 end
