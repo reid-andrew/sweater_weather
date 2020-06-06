@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Gecodoing Service: ', type: :feature do
+RSpec.describe 'Gecoding Service: ', type: :feature do
   describe 'As a user when' do
     it 'I provide an address I want to get back a lat/long' do
       location = "2401 Ontario St, Cleveland, OH"
@@ -26,9 +26,9 @@ RSpec.describe 'Gecodoing Service: ', type: :feature do
       expect(geocode).to eq(expected)
     end
 
-    it 'I provide gibberish I get back a no data message' do
+    it 'I provide gibberish I get back an empty hash' do
       location = "4$73f123a!#sdf"
-      expected = {"results": [], "status": "ZERO_RESULTS"}
+      expected = {}
 
       geocode = GeocodingService.find_coordinates(location)
       expect(geocode).to eq(expected)

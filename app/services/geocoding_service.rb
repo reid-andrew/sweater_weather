@@ -4,7 +4,7 @@ class GeocodingService
       geocode = parse_json(connection(address))
       return geocode[:results][0][:geometry][:location] if geocode[:results][0]
 
-      geocode
+      {}
     end
 
     private
