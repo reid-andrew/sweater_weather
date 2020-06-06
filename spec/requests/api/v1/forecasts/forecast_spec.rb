@@ -23,12 +23,12 @@ RSpec.describe 'Forecast Endpoint -', type: :request do
 
     expect(response).to be_successful
     expect(expected["data"]["id"]).to eq("cleveland, oh - #{weather[:current][:dt]}")
-    expect(expected["data"]["attributes"]["city"]).to eq(geocode[:results][0][:address_components][0][:long_name])
-    expect(expected["data"]["attributes"]["state"]).to eq(geocode[:results][0][:address_components][2][:short_name])
-    expect(expected["data"]["attributes"]["country"]).to eq(geocode[:results][0][:address_components][3][:long_name])
-    expect(expected["data"]["attributes"]["time"]).to eq(Time.at(weather[:current][:dt]).strftime('%l:%M %p, %B%e'))
-    expect(expected["data"]["attributes"]["current_temp"]).to eq(weather[:current][:temp])
-    expect(expected["data"]["attributes"]["forecast_high"]).to eq(weather[:daily][0][:temp][:max])
-    expect(expected["data"]["attributes"]["forecast_low"]).to eq(weather[:daily][0][:temp][:min])
+    expect(expected["data"]["attributes"]["location"]["city"]).to eq(geocode[:results][0][:address_components][0][:long_name])
+    expect(expected["data"]["attributes"]["location"]["state"]).to eq(geocode[:results][0][:address_components][2][:short_name])
+    expect(expected["data"]["attributes"]["location"]["country"]).to eq(geocode[:results][0][:address_components][3][:long_name])
+    expect(expected["data"]["attributes"]["current_weather"]["time"]).to eq(Time.at(weather[:current][:dt]).strftime('%l:%M %p, %B%e'))
+    expect(expected["data"]["attributes"]["current_weather"]["current_temp"]).to eq(weather[:current][:temp])
+    expect(expected["data"]["attributes"]["current_weather"]["high"]).to eq(weather[:daily][0][:temp][:max])
+    expect(expected["data"]["attributes"]["current_weather"]["low"]).to eq(weather[:daily][0][:temp][:min])
   end
 end
