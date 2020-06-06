@@ -1,5 +1,5 @@
 class BackgroundPhoto
-  attr_reader :id, :photos
+  attr_reader :id
 
   def initialize(location)
     @id = location
@@ -7,6 +7,6 @@ class BackgroundPhoto
   end
 
   def photos
-    [{photo: @photo_link}]
+    [{ photo: @photo_link }]
   end
 end

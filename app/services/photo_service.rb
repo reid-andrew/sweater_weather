@@ -4,8 +4,8 @@ class PhotoService
 
     def find_photo(location)
       reference = find_photo_reference(location)
-      base = "https://maps.googleapis.com/maps/api/place/photo?"
-      width = "maxwidth=1080"
+      base = 'https://maps.googleapis.com/maps/api/place/photo?'
+      width = 'maxwidth=1080'
       key = "&key=#{ENV['GOOGLE_GEOCODING_KEY']}"
       photo = "&photoreference=#{reference}"
       "#{base}#{width}#{key}#{photo}"

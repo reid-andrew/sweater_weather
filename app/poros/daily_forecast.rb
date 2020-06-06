@@ -8,7 +8,7 @@ class DailyForecast
   def initialize(weather)
     @day = Time.at(weather[:dt]).strftime('%A')
     @description = weather[:weather][0][:description]
-    @image = "http://openweathermap.org/img/wn/#{weather[:weather][0][:icon]}@2x.png"
+    @image = calculate_image_url(weather[:weather][0][:icon])
     @precipitation = calculate_precipitation(weather)
     @high_temp = weather[:temp][:max]
     @low_temp = weather[:temp][:min]
@@ -19,5 +19,9 @@ class DailyForecast
     precip += weather[:snow] if weather[:snow]
     precip += weather[:rain] if weather[:rain]
     precip
+  end
+
+  def calculate_image_url(variable)
+    "http://openweathermap.org/img/wn/#{variable}@2x.png"
   end
 end
