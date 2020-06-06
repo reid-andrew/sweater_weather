@@ -39,6 +39,7 @@ class WeatherReport
       humidity: @current_details.humidity,
       visibility: @current_details.visibility,
       uv_index: @current_details.uv_index,
+      uv_index_interpreted: @current_details.uv_index_interpreted,
       sunrise: @current_details.sunrise,
       sunset: @current_details.sunset
     }
