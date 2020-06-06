@@ -1,12 +1,12 @@
 class BackgroundPhoto
-  attr_reader :id, :photo
+  attr_reader :id, :photos
 
-  def initialize(param)
-    require "pry"; binding.pry
-    @param = param
+  def initialize(location)
+    @id = location
+    @photo_link = PhotoService.find_photo(location)
   end
 
-  def photo
-    {}
+  def photos
+    [{photo: @photo_link}]
   end
 end
