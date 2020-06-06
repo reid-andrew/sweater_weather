@@ -22,4 +22,8 @@ class CurrentWeather
   def current_description
     @weather[:current][:weather][0][:description]
   end
+
+  def image
+    "http://openweathermap.org/img/wn/#{@weather[:current][:weather][0][:icon]}@2x.png"
+  end
 end

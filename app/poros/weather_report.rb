@@ -7,6 +7,9 @@ class WeatherReport
     @id = "#{location} - #{@weather[:current][:dt]}"
     @location = Location.new(location, @geocode)
     @current_weather ||= CurrentWeather.new(@weather)
+    @current_details ||= CurrentDetails.new(@weather)
+    @hourly_forecast ||= HourlyForecast.forecast(@weather)
+    @daily_forecast ||= DailyForecast.forecast(@weather)
   end
 
   def location
@@ -23,7 +26,27 @@ class WeatherReport
       current_temp: @current_weather.current_temp,
       high: @current_weather.forecast_high,
       low: @current_weather.forecast_low,
-      details: @current_weather.current_description
+      description: @current_weather.current_description,
+      image: @current_weather.image
+    }
+  end
+
+  def current_details
+    {
+      description: @current_weather.current_description,
+      image: @current_weather.image,
+      feels_like: @current_details.feels_like,
+      humidity: @current_details.humidity,
+      visibility: @current_details.visibility,
+      uv_index: @current_details.uv_index,
+      sunrise: @current_details.sunrise,
+      sunset: @current_details.sunset
+    }
+  end
+
+  def hourly_forecast
+    {
+      attributes: @hourly_forecast
     }
   end
 end
