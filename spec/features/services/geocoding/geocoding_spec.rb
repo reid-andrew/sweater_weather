@@ -9,8 +9,8 @@ RSpec.describe 'Gecoding Service: ', type: :feature do
       stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=Cleveland,%2BOH&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
                   .to_return(status: 200, body: json_response, headers: {})
 
-      geocode = GeocodingService.find_coordinates(location)
-      expect(geocode).to eq(expected)
+      geocode = GeocodingService.find_geocode(location)
+      expect(geocode[:results][0][:geometry][:location]).to eq(expected)
     end
 
     it 'I provide a different location I want to get back a lat/long' do
@@ -20,8 +20,8 @@ RSpec.describe 'Gecoding Service: ', type: :feature do
       stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=Denver%2BCO&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
                   .to_return(status: 200, body: json_response, headers: {})
 
-      geocode = GeocodingService.find_coordinates(location)
-      expect(geocode).to eq(expected)
+      geocode = GeocodingService.find_geocode(location)
+      expect(geocode[:results][0][:geometry][:location]).to eq(expected)
     end
 
     it 'I provide only a country I get back a lat/long' do
@@ -31,19 +31,19 @@ RSpec.describe 'Gecoding Service: ', type: :feature do
       stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=italy&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
                   .to_return(status: 200, body: json_response, headers: {})
 
-      geocode = GeocodingService.find_coordinates(location)
-      expect(geocode).to eq(expected)
+      geocode = GeocodingService.find_geocode(location)
+      expect(geocode[:results][0][:geometry][:location]).to eq(expected)
     end
 
-    it 'I provide gibberish I get back an empty hash' do
+    it 'I provide gibberish I get back zero results' do
       location = "4$73f123asdf"
-      expected = {}
+      expected = {:results=>[], :status=>"ZERO_RESULTS"}
       json_response = File.read('spec/fixtures/geocoding_service/no_results.json')
       stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=4$73f123asdf&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
                   .to_return(status: 200, body: json_response, headers: {})
 
-      geocode = GeocodingService.find_coordinates(location)
-      expect(geocode).to eq(expected)
+    geocode = GeocodingService.find_geocode(location)
+    expect(geocode).to eq(expected)
     end
   end
 end
