@@ -14,6 +14,8 @@ class DailyForecast
     @low_temp = weather[:temp][:min]
   end
 
+  private
+
   def calculate_precipitation(weather)
     precip = 0
     precip += weather[:snow] if weather[:snow]

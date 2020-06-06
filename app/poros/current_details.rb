@@ -16,6 +16,8 @@ class CurrentDetails
     @image = calculate_image_url(weather[:current][:weather][0][:icon])
   end
 
+  private
+
   def uv_index_interpreted(weather)
     return 'extreme' if weather[:current][:uvi] >= 11
 

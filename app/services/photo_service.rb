@@ -16,6 +16,8 @@ class PhotoService
       place[:candidates][0][:photos][0][:photo_reference]
     end
 
+    private
+
     def connection(location)
       url = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json'
       Faraday.get(url) do |req|
