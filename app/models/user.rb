@@ -1,8 +1,7 @@
 class User < ApplicationRecord
-  validates_presence_of :email
-  validates :email, uniqueness: true
-  validates_presence_of :password, on: :create
-  validates_presence_of :password_confirmation, on: :create
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: true, on: :create
+  validates :password_confirmation, presence: true, on: :create
 
   before_create :set_api_key
 
@@ -17,11 +16,11 @@ class User < ApplicationRecord
   end
 
   def error
-    return 'This email is already registered.' if User.find_by(email:self.email)
+    return 'This email is already registered.' if User.find_by(email:email)
 
-    return 'Passwords must match.' if self.password != self.password_confirmation
+    return 'Passwords must match.' if password != password_confirmation
 
-    return 'Complete all fields.' if !self.email || !self.password
+    return 'Complete all fields.' if !email || !password
 
     'Something went wrong, please try again.'
   end
