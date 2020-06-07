@@ -16,7 +16,7 @@ class User < ApplicationRecord
   end
 
   def error
-    return 'This email is already registered.' if User.find_by(email:email)
+    return 'This email is already registered.' if User.find_by(email: email)
 
     return 'Passwords must match.' if password != password_confirmation
 
