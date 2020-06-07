@@ -5,7 +5,7 @@ class Api::V1::UsersController < ApplicationController
       # render json: UserSerializer.new(UserCreateFail.new)
     else
       @user.save
-      render json: UserSerializer.new(@user), :status => :created
+      render json: UsersSerializer.new(@user), :status => :created
     end
   end
 
