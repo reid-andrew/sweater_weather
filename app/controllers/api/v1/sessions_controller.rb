@@ -3,7 +3,7 @@ class Api::V1::SessionsController < ApplicationController
     user = User.find_by(email: session_params[:email])
     if user.present? && user.authenticate(params[:password])
       session[:user_id] = user.id
-      render json: UsersSerializer.new(user), status: :created
+      render json: UsersSerializer.new(user), status: :ok
     elsif !session_params[:email] || !session_params[:password]
       render '/login/fill_fields.json', status: :bad_request
     else

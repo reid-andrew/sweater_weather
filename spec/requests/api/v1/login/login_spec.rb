@@ -16,7 +16,7 @@ RSpec.describe 'Login Endpoint -', type: :request do
     user = User.find_by(email: "whatever@example.com")
 
     expect(response).to be_successful
-    expect(response.status).to eq(201)
+    expect(response.status).to eq(200)
     expect(output[:data][:id]).to eq(User.last.id.to_s)
     expect(output[:data][:type]).to eq('users')
     expect(output[:data][:attributes][:email]).to eq(user.email)
@@ -33,7 +33,7 @@ RSpec.describe 'Login Endpoint -', type: :request do
     output = JSON.parse(response.body, symbolize_names: true)
 
     expect(response.status).to eq(400)
-    expect(output[:data][:attributes][:error]).to eq('Please register first.')
+    expect(output[:data][:attributes][:error]).to eq('Please register or provide correct login information.')
   end
 
   it 'handles failed logins because bad password provided' do
@@ -46,7 +46,7 @@ RSpec.describe 'Login Endpoint -', type: :request do
     output = JSON.parse(response.body, symbolize_names: true)
 
     expect(response.status).to eq(400)
-    expect(output[:data][:attributes][:error]).to eq('Please register first.')
+    expect(output[:data][:attributes][:error]).to eq('Please register or provide correct login information.')
   end
 
   it 'handles failed logins because no info provided' do
