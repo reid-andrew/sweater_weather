@@ -1,6 +1,6 @@
 class Api::V1::BackgroundsController < ApplicationController
   def index
-    render json: BackgroundSerializer.new(
+    render json: BackgroundImageSerializer.new(
       BackgroundPhoto.new(background_params[:location])
     )
   end
