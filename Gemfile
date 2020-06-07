@@ -14,7 +14,7 @@ gem 'faker'
 gem 'fast_jsonapi'
 gem 'figaro'
 gem 'bcrypt', '~> 3.1.7'
-# gem 'jbuilder', '~> 2.5'
+gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # gem 'capistrano-rails', group: :development
 # gem 'rack-cors'
