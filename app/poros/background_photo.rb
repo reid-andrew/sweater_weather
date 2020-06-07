@@ -6,7 +6,11 @@ class BackgroundPhoto
     @photo_link = PhotoService.find_photo(location)
   end
 
-  def photos
-    [{ photo: @photo_link }]
+  def photo
+    @photo_link
   end
+
+  # def photos
+  #   [{ photo: @photo_link }]
+  # end
 end
