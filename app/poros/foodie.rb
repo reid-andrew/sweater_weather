@@ -5,13 +5,13 @@ class Foodie
               :forecast,
               :restaurant
 
-  def initialize(foodie_params)
-    trip_time = find_travel_time(foodie_params[:start], foodie_params[:end])
-    @id = "#{foodie_params[:search]} food in #{foodie_params[:end]}"
-    @end_location = foodie_params[:end]
+  def initialize(params)
+    trip_time = find_travel_time(params[:start], params[:end])
+    @id = "#{params[:search]} food in #{params[:end]}"
+    @end_location = params[:end]
     @travel_time = trip_time[:text]
-    @forecast = find_forecast(foodie_params[:end], arrival_time(trip_time[:int]))
-    @restaurant = find_restaurant(geocode(foodie_params[:end]), foodie_params[:search])
+    @forecast = find_forecast(params[:end], arrival_time(trip_time[:int]))
+    @restaurant = find_restaurant(geocode(params[:end]), params[:search])
   end
 
   private
