@@ -5,13 +5,13 @@ class Foodie
               :forecast,
               :restaurant
 
-  def initialize(params)
-    @id = "#{params[:search]} food in #{params[:end]}"
-    @geocode = GeocodingService.find_geocode(params[:end])
-    @end_location = params[:end]
-    @travel_time = find_travel_time(params[:start], params[:end])
-    @forecast = find_forecast(params[:end], date = Time.now)
-    @restaurant = find_restaurant(@geocode, params[:search])
+  def initialize(foodie_params)
+    @id = "#{foodie_params[:search]} food in #{foodie_params[:end]}"
+    @geocode = GeocodingService.find_geocode(foodie_params[:end])
+    @end_location = foodie_params[:end]
+    @travel_time = find_travel_time(foodie_params[:start], foodie_params[:end])[:text]
+    @forecast = find_forecast(foodie_params[:end], Time.now + find_travel_time(foodie_params[:start], foodie_params[:end])[:int])
+    @restaurant = find_restaurant(@geocode, foodie_params[:search])
   end
 
   private
@@ -22,7 +22,10 @@ class Foodie
 
   def find_travel_time(origin, destination)
     directions = DirectionService.find_distance(origin, destination)
-    directions[:routes][0][:legs][0][:duration][:text]
+    {
+      text: directions[:routes][0][:legs][0][:duration][:text],
+      int: directions[:routes][0][:legs][0][:duration][:value]
+    }
   end
 
   def find_restaurant(geocode, search)
@@ -32,7 +35,7 @@ class Foodie
                                   search)
   end
 
-  def find_forecast(destination, time)
+  def find_forecast(destination, time = Time.now)
     {
       summary: weather(destination, time)[:weather][0][:description],
       temperature: weather(destination, time)[:temp]
