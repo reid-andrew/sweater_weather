@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Background Endpoint -', type: :request do
+RSpec.describe 'Foodie Endpoint -', type: :request do
   before(:each) do
     geocode_json_response = File.read('spec/fixtures/geocoding_service/pueblo_co.json')
     stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=pueblo,co&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
