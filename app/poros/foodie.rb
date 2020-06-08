@@ -6,7 +6,7 @@ class Foodie
               :restaurant
 
   def initialize(params)
-    @id = "x"
+    @id = "#{params[:search]} food in #{params[:end]}"
     @geocode = GeocodingService.find_geocode(params[:end])
     @end_location = params[:end]
     @travel_time = find_travel_time(params[:start], params[:end])
@@ -15,6 +15,10 @@ class Foodie
   end
 
   private
+
+  def foodie_params
+    params.permit(:search, :start, :end)
+  end
 
   def find_travel_time(origin, destination)
     directions = DirectionService.find_distance(origin, destination)
