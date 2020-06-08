@@ -15,7 +15,7 @@ RSpec.describe 'Background Endpoint -', type: :request do
                 .to_return(status: 200, body: zomato_json_response, headers: {})
 
     directions_json_response = File.read('spec/fixtures/directions/denver_to_pueblo.json')
-    stub_request(:get, "https://maps.googleapis.com/maps/api/directions/json?origin=Denver, CO&destination=Pueblo, CO&key=AIzaSyCQOXoXYkPUVVdPNayGgStRMvxqJmd8mVU")
+    stub_request(:get, "https://maps.googleapis.com/maps/api/directions/json?destination=pueblo,co&key=#{ENV['GOOGLE_GEOCODING_KEY']}&origin=denver,co")
                 .to_return(status: 200, body: directions_json_response, headers: {})
   end
 

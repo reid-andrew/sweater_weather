@@ -2,16 +2,20 @@ class Foodie
   attr_reader :id
 
   def initialize(params)
-    require "pry"; binding.pry
     @id = "x"
     @geocode = GeocodingService.find_geocode(params[:end])
     @end_location = params[:end]
-    @travel_time = DirectionService.get_distance(params[:start], params[:end])
+    @travel_time = get_travel_time(params[:start], params[:end])
     @forecast = forecast(params[:end], date = Time.now)
     @restaurant = get_restaurant(@geocode, params[:search])
   end
 
   private
+
+  def get_travel_time(origin, destination)
+    directions = DirectionService.get_distance(origin, destination)
+    directions[:routes][0][:legs][0][:duration][:text]
+  end
 
   def get_restaurant(geocode, search)
     location = geocode[:results][0][:geometry][:location]
