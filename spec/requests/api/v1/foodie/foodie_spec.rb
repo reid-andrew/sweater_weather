@@ -2,13 +2,17 @@ require 'rails_helper'
 
 RSpec.describe 'Background Endpoint -', type: :request do
   before(:each) do
-    json_response = File.read('spec/fixtures/geocoding_service/pueblo_co.json')
+    geocode_json_response = File.read('spec/fixtures/geocoding_service/pueblo_co.json')
     stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=pueblo,co&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
-                .to_return(status: 200, body: json_response, headers: {})
+                .to_return(status: 200, body: geocode_json_response, headers: {})
 
-    json_response = File.read('spec/fixtures/open_weather_service/pueblo_co.json')
+    weather_json_response = File.read('spec/fixtures/open_weather_service/pueblo_co.json')
     stub_request(:get, "https://api.openweathermap.org/data/2.5/onecall?appid=#{ENV['OPEN_WEATHER_KEY']}&exclude=minutely&lat=38.2544472&lon=-104.6091409&units=imperial")
-                .to_return(status: 200, body: json_response, headers: {})
+                .to_return(status: 200, body: weather_json_response, headers: {})
+
+    zomato_json_response = File.read('spec/fixtures/foodie_service/pueblo_italian.json')
+    stub_request(:get, "https://developers.zomato.com/api/v2.1/search?lat=38.2544472&lon=-104.6091409&q=italian")
+                .to_return(status: 200, body: zomato_json_response, headers: {})
   end
 
   it 'gets food info for a given location' do

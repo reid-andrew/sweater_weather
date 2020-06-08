@@ -7,10 +7,17 @@ class Foodie
     @end_location = params[:end]
     @travel_time = ''
     @forecast = forecast(params[:end], date = Time.now)
-    @restaurant = ''
+    @restaurant = get_restaurant(@geocode, params[:search])
   end
 
   private
+
+  def get_restaurant(geocode, search)
+    location = geocode[:results][0][:geometry][:location]
+    FoodieService.find_restaurant(location[:lat],
+                                  location[:lng],
+                                  search)
+  end
 
   def forecast(destination, time)
     {
