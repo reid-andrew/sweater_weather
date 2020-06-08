@@ -39,7 +39,7 @@ class Foodie
                                   search)
   end
 
-  def find_forecast(destination, time = Time.now)
+  def find_forecast(destination, time)
     {
       summary: weather(destination, time)[:weather][0][:description],
       temperature: weather(destination, time)[:temp]
