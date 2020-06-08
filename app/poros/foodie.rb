@@ -24,10 +24,6 @@ class Foodie
     GeocodingService.find_geocode(destination)
   end
 
-  def foodie_params
-    params.permit(:search, :start, :end)
-  end
-
   def find_travel_time(origin, destination)
     directions = DirectionService.find_distance(origin, destination)
     {
