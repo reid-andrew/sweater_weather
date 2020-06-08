@@ -13,6 +13,10 @@ RSpec.describe 'Background Endpoint -', type: :request do
     zomato_json_response = File.read('spec/fixtures/foodie_service/pueblo_italian.json')
     stub_request(:get, "https://developers.zomato.com/api/v2.1/search?lat=38.2544472&lon=-104.6091409&q=italian")
                 .to_return(status: 200, body: zomato_json_response, headers: {})
+
+    directions_json_response = File.read('spec/fixtures/directions/denver_to_pueblo.json')
+    stub_request(:get, "https://maps.googleapis.com/maps/api/directions/json?origin=Denver, CO&destination=Pueblo, CO&key=AIzaSyCQOXoXYkPUVVdPNayGgStRMvxqJmd8mVU")
+                .to_return(status: 200, body: directions_json_response, headers: {})
   end
 
   it 'gets food info for a given location' do
