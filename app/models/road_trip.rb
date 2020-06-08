@@ -17,6 +17,14 @@ class RoadTrip < ApplicationRecord
 
     private
 
+    def find_duration(origin, destination)
+      directions = DirectionService.find_distance(origin, destination)
+      {
+        text: directions[:routes][0][:legs][0][:duration][:text],
+        int: directions[:routes][0][:legs][0][:duration][:value]
+      }
+    end
+
     def get_weather(report, date)
       report.weather_data[:daily].select do |day|
         day[:dt] >= time_early(date) && day[:dt] < time_late(date)
@@ -35,7 +43,7 @@ class RoadTrip < ApplicationRecord
       RoadTrip.create(
         origin: origin,
         destination: destination,
-        travel_time: '5',
+        travel_time: find_duration(origin, destination)[:text],
         forecast_temp: weather[0][:temp][:day],
         forecast_description: weather[0][:weather][0][:description],
         trip_date: date,
