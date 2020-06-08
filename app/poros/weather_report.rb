@@ -1,5 +1,5 @@
 class WeatherReport
-  attr_reader :id
+  attr_reader :id, :weather_data
 
   def initialize(location)
     @geocode = GeocodingService.find_geocode(location)

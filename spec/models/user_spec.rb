@@ -7,6 +7,10 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:password)}
   end
 
+  describe "relationships" do
+    it { should have_many(:road_trips)}
+  end
+
   describe "model methods" do
     it 'set_api_key' do
       params = {"email": "whatever@example.com", "password": "password", "password_confirmation": "password"}

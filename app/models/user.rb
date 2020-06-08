@@ -3,6 +3,8 @@ class User < ApplicationRecord
   validates :password, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create
 
+  has_many :road_trips, dependent: :destroy
+
   before_create :set_api_key
 
   has_secure_password
