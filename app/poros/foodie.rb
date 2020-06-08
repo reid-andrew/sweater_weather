@@ -9,8 +9,10 @@ class Foodie
     @id = "#{foodie_params[:search]} food in #{foodie_params[:end]}"
     @geocode = GeocodingService.find_geocode(foodie_params[:end])
     @end_location = foodie_params[:end]
-    @travel_time = find_travel_time(foodie_params[:start], foodie_params[:end])[:text]
-    @forecast = find_forecast(foodie_params[:end], Time.now + find_travel_time(foodie_params[:start], foodie_params[:end])[:int])
+    @trip_time = find_travel_time(foodie_params[:start], foodie_params[:end])
+    @travel_time = @trip_time[:text]
+    @arrival_time = Time.now + @trip_time[:int]
+    @forecast = find_forecast(foodie_params[:end], @arrival_time)
     @restaurant = find_restaurant(@geocode, foodie_params[:search])
   end
 
