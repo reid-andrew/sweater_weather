@@ -8,7 +8,6 @@ class Foodie
     @travel_time = ''
     @forecast = forecast(params[:end], date = Time.now)
     @restaurant = ''
-    require "pry"; binding.pry
   end
 
   private
