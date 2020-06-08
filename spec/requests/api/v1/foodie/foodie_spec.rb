@@ -21,17 +21,17 @@ RSpec.describe 'Background Endpoint -', type: :request do
 
   it 'gets food info for a given location' do
     get '/api/v1/foodie?start=denver,co&end=pueblo,co&search=italian'
-    json_response = JSON.parse(response.body)
+    json_response = JSON.parse(response.body, symbolize_names: true)
     expected = json_response[:data]
 
     expect(response).to be_successful
     expect(response.status).to eq(200)
     expect(expected[:type]).to eq('foodie')
-    expect(expected[:attributes][:end_location]).to eq('pueblo, co')
-    expect(expected[:attributes][:travel_time]).to eq('1 hours 48 min')
-    expect(expected[:attributes][:forecast][:summary]).to eq('TBD')
-    expect(expected[:attributes][:forecast][:temperature]).to eq('TBD')
-    expect(expected[:attributes][:restaurant][:name]).to eq('TBD')
-    expect(expected[:attributes][:restaurant][:address]).to eq('TBD')
+    expect(expected[:attributes][:end_location]).to eq('pueblo,co')
+    expect(expected[:attributes][:travel_time]).to eq('1 hour 48 mins')
+    expect(expected[:attributes][:forecast][:summary]).to eq('clear sky')
+    expect(expected[:attributes][:forecast][:temperature]).to eq(52.32)
+    expect(expected[:attributes][:restaurant][:name]).to eq("Angelo's Pizza Parlor")
+    expect(expected[:attributes][:restaurant][:address]).to eq('105 E Riverwalk, Pueblo 81003')
   end
 end

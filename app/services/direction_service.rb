@@ -2,7 +2,7 @@ class DirectionService
   class << self
     include Parseable
 
-    def get_distance(origin, destination)
+    def find_distance(origin, destination)
       parse_json(connection(origin, destination))
     end
 
