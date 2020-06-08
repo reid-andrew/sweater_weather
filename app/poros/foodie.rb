@@ -48,11 +48,15 @@ class Foodie
 
   def weather(destination, time)
     report = WeatherReport.new(destination)
-    find_weather(report, time)
+    weather_closest_to_arrival_time(report, time)
   end
 
-  def find_weather(report, time)
-    after = report.weather_data[:hourly].select { |hour| hour[:dt] > time.to_i }
-    after.max_by { |x| x[:dt] }
+  def weather_closest_to_arrival_time(report, time)
+    forecasts = weather_after_scheduled_arrival(report, time)
+    forecasts.max_by { |x| x[:dt] }
+  end
+
+  def weather_after_scheduled_arrival(report, time)
+    report.weather_data[:hourly].select { |hour| hour[:dt] > time.to_i }
   end
 end
