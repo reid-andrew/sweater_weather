@@ -6,17 +6,17 @@ class Foodie
               :restaurant
 
   def initialize(args)
-    trip_time = find_travel_time(args[:start], args[:end])
     @id = "#{args[:search]} food in #{args[:end]}"
     @end_location = args[:end]
-    @travel_time = trip_time[:text]
-    @forecast = find_forecast(args[:end], arrival_time(trip_time[:int]))
+    @travel_time = find_duration(args[:start], args[:end])[:text]
+    @forecast = find_forecast(args[:end],
+                arrival(find_duration(args[:start], args[:end])[:int]))
     @restaurant = find_restaurant(geocode(args[:end]), args[:search])
   end
 
   private
 
-  def arrival_time(duration)
+  def arrival(duration)
     Time.now + duration
   end
 
@@ -24,7 +24,7 @@ class Foodie
     GeocodingService.find_geocode(destination)
   end
 
-  def find_travel_time(origin, destination)
+  def find_duration(origin, destination)
     directions = DirectionService.find_distance(origin, destination)
     {
       text: directions[:routes][0][:legs][0][:duration][:text],
