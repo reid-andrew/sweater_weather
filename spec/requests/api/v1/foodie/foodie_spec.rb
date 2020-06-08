@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Background Endpoint -', type: :request do
   before(:each) do
     json_response = File.read('spec/fixtures/geocoding_service/pueblo_co.json')
-    stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=Pueblo,%2BCO&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
+    stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=pueblo,co&key=#{ENV['GOOGLE_GEOCODING_KEY']}")
                 .to_return(status: 200, body: json_response, headers: {})
 
     json_response = File.read('spec/fixtures/open_weather_service/pueblo_co.json')
@@ -23,7 +23,7 @@ RSpec.describe 'Background Endpoint -', type: :request do
     expect(expected[:attributes][:travel_time]).to eq('1 hours 48 min')
     expect(expected[:attributes][:forecast][:summary]).to eq('TBD')
     expect(expected[:attributes][:forecast][:temperature]).to eq('TBD')
-    expect(expected[:restaurant][:name]).to eq('TBD')
-    expect(expected[:restaurant][:address]).to eq('TBD')
+    expect(expected[:attributes][:restaurant][:name]).to eq('TBD')
+    expect(expected[:attributes][:restaurant][:address]).to eq('TBD')
   end
 end
