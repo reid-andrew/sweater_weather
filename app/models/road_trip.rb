@@ -9,9 +9,10 @@ class RoadTrip < ApplicationRecord
   belongs_to :user
 
   def self.create_road_trip(origin, destination, user, date = Time.now)
-    time = DateTime.new(date.year, date.month, date.day+7, 18, 0, 0, 0).to_time.to_i
+    time_early = DateTime.new(date.year, date.month, date.day, 0, 0, 0, 0).to_time.to_i
+    time_late = DateTime.new(date.year, date.month, date.day, 24, 0, 0, 0).to_time.to_i
     report = WeatherReport.new(destination)
-    weather = report.weather_data[:daily].select{|day| day[:dt] == time}
+    weather = report.weather_data[:daily].select{|day| day[:dt] >= time_early && day[:dt] < time_late}
 
     RoadTrip.create(
       origin: origin,

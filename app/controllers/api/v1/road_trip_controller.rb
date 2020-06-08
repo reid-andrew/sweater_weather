@@ -5,8 +5,6 @@ class Api::V1::RoadTripController < ApplicationController
     if !user
       render json: RoadTripSerializer.new(user), status: :bad_request
     else
-      require "pry"; binding.pry
-
       roadtrip = RoadTrip.create_road_trip(road_trip_params[:origin],
                                            road_trip_params[:destination],
                                            user)
