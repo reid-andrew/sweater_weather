@@ -1,5 +1,5 @@
 json.data do
-  json.id 0
+  json.id nil
   json.attributes do
     json.error 'Please provide a password and email.'
   end
