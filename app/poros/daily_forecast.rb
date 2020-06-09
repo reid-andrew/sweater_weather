@@ -1,14 +1,14 @@
 class DailyForecast
   include Forecastable
-  
+
   def self.forecast(weather)
     forecast = []
-    weather[:daily][0..4].each { |day| forecast << DailyForecast.new(day) }
+    weather[:daily][0..4].each { |day| forecast << DailyForecast.new(day, weather[:timezone]) }
     forecast
   end
 
-  def initialize(weather)
-    @day = Time.at(weather[:dt]).strftime('%A')
+  def initialize(weather, zone)
+    @day = find_time(weather[:dt], zone, '%A')
     @description = weather[:weather][0][:description]
     @image = calculate_image_url(weather[:weather][0][:icon])
     @precipitation = calculate_precipitation(weather)

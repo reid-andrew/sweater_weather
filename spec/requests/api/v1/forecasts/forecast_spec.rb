@@ -33,7 +33,7 @@ RSpec.describe 'Forecast Endpoint -', type: :request do
   end
 
   it 'provides current_weather for a city' do
-    expect(@expected["current_weather"][0]["time"]).to eq(Time.at(@weather[:current][:dt]).strftime('%l:%M %p, %B%e'))
+    expect(@expected["current_weather"][0]["time"]).to eq(Time.at(@weather[:current][:dt]).in_time_zone("America/New_York").strftime('%l:%M %p, %B%e'))
     expect(@expected["current_weather"][0]["current_temp"]).to eq(@weather[:current][:temp])
     expect(@expected["current_weather"][0]["high"]).to eq(@weather[:daily][0][:temp][:max])
     expect(@expected["current_weather"][0]["low"]).to eq(@weather[:daily][0][:temp][:min])
@@ -48,23 +48,23 @@ RSpec.describe 'Forecast Endpoint -', type: :request do
     expect(@expected["current_details"][0]["visibility"]).to eq(@weather[:current][:visibility])
     expect(@expected["current_details"][0]["uv_index"]).to eq(@weather[:current][:uvi])
     expect(@expected["current_details"][0]["uv_index_interpreted"]).to eq('low')
-    expect(@expected["current_details"][0]["sunrise"]).to eq(Time.at(@weather[:current][:sunrise]).strftime('%l:%M %p'))
-    expect(@expected["current_details"][0]["sunset"]).to eq(Time.at(@weather[:current][:sunset]).strftime('%l:%M %p'))
+    expect(@expected["current_details"][0]["sunrise"]).to eq(Time.at(@weather[:current][:sunrise]).in_time_zone("America/New_York").strftime('%l:%M %p'))
+    expect(@expected["current_details"][0]["sunset"]).to eq(Time.at(@weather[:current][:sunset]).in_time_zone("America/New_York").strftime('%l:%M %p'))
     expect(@expected["current_details"][0]["feels_like"]).to eq(@weather[:current][:feels_like])
   end
 
   it 'provides hourly forecast for today' do
     expect(@expected["hourly_forecast"][0]["temp"]).to eq(@weather[:hourly][0][:temp])
     expect(@expected["hourly_forecast"][0]["image"]).to eq(@weather[:hourly][0][:weather][0][:icon])
-    expect(@expected["hourly_forecast"][0]["time"]).to eq(Time.at(@weather[:hourly][0][:dt]).strftime('%l %p'))
+    expect(@expected["hourly_forecast"][0]["time"]).to eq(Time.at(@weather[:hourly][0][:dt]).in_time_zone("America/New_York").strftime('%l %p'))
 
     expect(@expected["hourly_forecast"][4]["temp"]).to eq(@weather[:hourly][4][:temp])
     expect(@expected["hourly_forecast"][4]["image"]).to eq(@weather[:hourly][4][:weather][0][:icon])
-    expect(@expected["hourly_forecast"][4]["time"]).to eq(Time.at(@weather[:hourly][4][:dt]).strftime('%l %p'))
+    expect(@expected["hourly_forecast"][4]["time"]).to eq(Time.at(@weather[:hourly][4][:dt]).in_time_zone("America/New_York").strftime('%l %p'))
 
     expect(@expected["hourly_forecast"][7]["temp"]).to eq(@weather[:hourly][7][:temp])
     expect(@expected["hourly_forecast"][7]["image"]).to eq(@weather[:hourly][7][:weather][0][:icon])
-    expect(@expected["hourly_forecast"][7]["time"]).to eq(Time.at(@weather[:hourly][7][:dt]).strftime('%l %p'))
+    expect(@expected["hourly_forecast"][7]["time"]).to eq(Time.at(@weather[:hourly][7][:dt]).in_time_zone("America/New_York").strftime('%l %p'))
   end
 
   it 'only provides 8 hours worth of hourly forecast' do
@@ -72,14 +72,14 @@ RSpec.describe 'Forecast Endpoint -', type: :request do
   end
 
   it 'provides daily forecast for the next 5 days' do
-    expect(@expected["daily_forecast"][0]["day"]).to eq(Time.at(@weather[:daily][0][:dt]).strftime('%A'))
+    expect(@expected["daily_forecast"][0]["day"]).to eq(Time.at(@weather[:daily][0][:dt]).in_time_zone("America/New_York").strftime('%A'))
     expect(@expected["daily_forecast"][0]["description"]).to eq(@weather[:daily][0][:weather][0][:description])
     expect(@expected["daily_forecast"][0]["image"]).to eq("http://openweathermap.org/img/wn/#{@weather[:daily][0][:weather][0][:icon]}@2x.png")
     expect(@expected["daily_forecast"][0]["precipitation"]).to eq(0)
     expect(@expected["daily_forecast"][0]["high_temp"]).to eq(@weather[:daily][0][:temp][:max])
     expect(@expected["daily_forecast"][0]["low_temp"]).to eq(@weather[:daily][0][:temp][:min])
 
-    expect(@expected["daily_forecast"][4]["day"]).to eq(Time.at(@weather[:daily][4][:dt]).strftime('%A'))
+    expect(@expected["daily_forecast"][4]["day"]).to eq(Time.at(@weather[:daily][4][:dt]).in_time_zone("America/New_York").strftime('%A'))
     expect(@expected["daily_forecast"][4]["description"]).to eq(@weather[:daily][4][:weather][0][:description])
     expect(@expected["daily_forecast"][4]["image"]).to eq("http://openweathermap.org/img/wn/#{@weather[:daily][4][:weather][0][:icon]}@2x.png")
     expect(@expected["daily_forecast"][4]["precipitation"]).to eq(@weather[:daily][4][:rain])

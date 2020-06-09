@@ -7,7 +7,7 @@ class CurrentWeather
   end
 
   def initialize(weather)
-    @time = Time.at(weather[:current][:dt]).strftime('%l:%M %p, %B%e')
+    @time = find_time(weather[:current][:dt], weather[:timezone], '%l:%M %p, %B%e')
     @current_temp = weather[:current][:temp]
     @high = weather[:daily][0][:temp][:max]
     @low = weather[:daily][0][:temp][:min]
