@@ -33,6 +33,7 @@ RSpec.describe 'Registration Endpoint -', type: :request do
       }
 
       expect(response).to be_successful
+      expect(User.count).to eq(@starting_user_count + 1)
 
       post '/api/v1/users', params:
         {
@@ -44,6 +45,7 @@ RSpec.describe 'Registration Endpoint -', type: :request do
 
       expect(response.status).to eq(400)
       expect(output[:data][:attributes][:error]).to eq('This email is already registered.')
+      expect(User.count).to eq(@starting_user_count + 1)
   end
 
   it 'prevents registration with mismatching passwords' do
@@ -58,6 +60,7 @@ RSpec.describe 'Registration Endpoint -', type: :request do
 
       expect(response.status).to eq(400)
       expect(output[:data][:attributes][:error]).to eq('Passwords must match.')
+      expect(User.count).to eq(@starting_user_count)
   end
 
   it 'prevents registration with missing info' do
@@ -70,6 +73,7 @@ RSpec.describe 'Registration Endpoint -', type: :request do
 
       expect(response.status).to eq(400)
       expect(output[:data][:attributes][:error]).to eq('Complete all fields.')
+      expect(User.count).to eq(@starting_user_count)
 
       post '/api/v1/users', params:
         {
@@ -81,5 +85,20 @@ RSpec.describe 'Registration Endpoint -', type: :request do
 
         expect(response.status).to eq(400)
         expect(output[:data][:attributes][:error]).to eq('Complete all fields.')
+        expect(User.count).to eq(@starting_user_count)
+  end
+
+  it 'prevents registration with an invalid email' do
+    post '/api/v1/users', params:
+      {
+        "email": "whatever",
+        "password": "password",
+        "password_confirmation": "password"
+      }
+      output = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response.status).to eq(400)
+      expect(output[:data][:attributes][:error]).to eq('Something went wrong. Please double check your email and password and try again.')
+      expect(User.count).to eq(@starting_user_count)
   end
 end
