@@ -2,8 +2,7 @@ class CurrentDetails
   include Forecastable
 
   def self.forecast(weather)
-    forecast = []
-    forecast << CurrentDetails.new(weather)
+    [CurrentDetails.new(weather)]
   end
 
   def initialize(weather)
@@ -12,8 +11,10 @@ class CurrentDetails
     @visibility = weather[:current][:visibility]
     @uv_index = weather[:current][:uvi]
     @uv_index_interpreted = uv_index_interpreted(weather)
-    @sunrise = find_time(weather[:current][:sunrise], weather[:timezone], '%l:%M %p')
-    @sunset = find_time(weather[:current][:sunset], weather[:timezone], '%l:%M %p')
+    @sunrise = find_time(weather[:current][:sunrise],
+                         weather[:timezone], '%l:%M %p')
+    @sunset = find_time(weather[:current][:sunset],
+                        weather[:timezone], '%l:%M %p')
     @description = weather[:current][:weather][0][:description]
     @image = calculate_image_url(weather[:current][:weather][0][:icon])
   end

@@ -2,9 +2,9 @@ class DailyForecast
   include Forecastable
 
   def self.forecast(weather)
-    forecast = []
-    weather[:daily][0..4].each { |day| forecast << DailyForecast.new(day, weather[:timezone]) }
-    forecast
+    weather[:daily][0..4].map do |day|
+      DailyForecast.new(day, weather[:timezone])
+    end
   end
 
   def initialize(weather, zone)

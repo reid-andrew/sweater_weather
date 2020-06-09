@@ -2,8 +2,7 @@ class CurrentWeather
   include Forecastable
 
   def self.forecast(weather)
-    forecast = []
-    forecast << CurrentWeather.new(weather)
+    [CurrentWeather.new(weather)]
   end
 
   def initialize(weather)

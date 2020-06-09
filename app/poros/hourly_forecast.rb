@@ -2,9 +2,9 @@ class HourlyForecast
   include Forecastable
 
   def self.forecast(weather)
-    forecast = []
-    weather[:hourly][0..7].each { |hour| forecast << HourlyForecast.new(hour, weather[:timezone]) }
-    forecast
+    weather[:hourly][0..7].map do |hour|
+      HourlyForecast.new(hour, weather[:timezone])
+    end
   end
 
   def initialize(weather, zone)
