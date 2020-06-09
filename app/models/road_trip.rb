@@ -9,7 +9,7 @@ class RoadTrip < ApplicationRecord
   belongs_to :user
 
   class << self
-    def create_road_trip(origin, destination, user, date = Time.now)
+    def create_trip(origin, destination, user, date = Time.now)
       report = WeatherReport.new(destination)
       weather = get_weather(report,
                             date + find_duration(origin, destination)[:int])
