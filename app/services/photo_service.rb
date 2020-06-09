@@ -13,6 +13,7 @@ class PhotoService
 
     def find_photo_reference(location)
       place = parse_json(connection(location))
+      return nil if place[:candidates] == [{}]
       place[:candidates][0][:photos][0][:photo_reference]
     end
 
