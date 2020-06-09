@@ -23,7 +23,5 @@ class User < ApplicationRecord
     return 'Passwords must match.' if password != password_confirmation
 
     return 'Complete all fields.' if !email || !password
-
-    'Something went wrong, please try again.'
   end
 end
