@@ -1,4 +1,6 @@
 class DailyForecast
+  include Forecastable
+  
   def self.forecast(weather)
     forecast = []
     weather[:daily][0..4].each { |day| forecast << DailyForecast.new(day) }
@@ -21,9 +23,5 @@ class DailyForecast
     precip += weather[:snow] if weather[:snow]
     precip += weather[:rain] if weather[:rain]
     precip
-  end
-
-  def calculate_image_url(variable)
-    "http://openweathermap.org/img/wn/#{variable}@2x.png"
   end
 end

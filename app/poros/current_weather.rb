@@ -1,4 +1,6 @@
 class CurrentWeather
+  include Forecastable
+
   def self.forecast(weather)
     forecast = []
     forecast << CurrentWeather.new(weather)
@@ -11,11 +13,5 @@ class CurrentWeather
     @low = weather[:daily][0][:temp][:min]
     @description = weather[:current][:weather][0][:description]
     @image = calculate_image_url(weather[:current][:weather][0][:icon])
-  end
-
-  private
-
-  def calculate_image_url(variable)
-    "http://openweathermap.org/img/wn/#{variable}@2x.png"
   end
 end

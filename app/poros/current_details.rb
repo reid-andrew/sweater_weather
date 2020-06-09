@@ -1,4 +1,6 @@
 class CurrentDetails
+  include Forecastable
+
   def self.forecast(weather)
     forecast = []
     forecast << CurrentDetails.new(weather)
@@ -28,9 +30,5 @@ class CurrentDetails
     return 'moderate' if weather[:current][:uvi] >= 3
 
     'low'
-  end
-
-  def calculate_image_url(variable)
-    "http://openweathermap.org/img/wn/#{variable}@2x.png"
   end
 end
