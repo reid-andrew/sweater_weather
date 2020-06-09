@@ -1,6 +1,6 @@
 json.data do
   json.id nil
   json.attributes do
-    json.error 'Please provide a password and email.'
+    json.error 'Please register or login first.'
   end
 end

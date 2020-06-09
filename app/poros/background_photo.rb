@@ -9,8 +9,4 @@ class BackgroundPhoto
   def photo
     @photo_link
   end
-
-  # def photos
-  #   [{ photo: @photo_link }]
-  # end
 end

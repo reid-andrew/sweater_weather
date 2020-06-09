@@ -1,12 +1,14 @@
 class DailyForecast
+  include Forecastable
+
   def self.forecast(weather)
-    forecast = []
-    weather[:daily][0..4].each { |day| forecast << DailyForecast.new(day) }
-    forecast
+    weather[:daily][0..4].map do |day|
+      DailyForecast.new(day, weather[:timezone])
+    end
   end
 
-  def initialize(weather)
-    @day = Time.at(weather[:dt]).strftime('%A')
+  def initialize(weather, zone)
+    @day = find_time(weather[:dt], zone, '%A')
     @description = weather[:weather][0][:description]
     @image = calculate_image_url(weather[:weather][0][:icon])
     @precipitation = calculate_precipitation(weather)
@@ -21,9 +23,5 @@ class DailyForecast
     precip += weather[:snow] if weather[:snow]
     precip += weather[:rain] if weather[:rain]
     precip
-  end
-
-  def calculate_image_url(variable)
-    "http://openweathermap.org/img/wn/#{variable}@2x.png"
   end
 end

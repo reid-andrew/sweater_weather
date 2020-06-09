@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create
 
@@ -24,6 +24,6 @@ class User < ApplicationRecord
 
     return 'Complete all fields.' if !email || !password
 
-    'Something went wrong, please try again.'
+    'Something went wrong. Please double check your email and password and try again.'
   end
 end

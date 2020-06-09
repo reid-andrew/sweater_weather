@@ -10,7 +10,8 @@ class Foodie
     @end_location = args[:end]
     @travel_time = find_duration(args[:start], args[:end])[:text]
     @forecast = find_forecast(args[:end],
-                arrival(find_duration(args[:start], args[:end])[:int]))
+                              arrival(find_duration(args[:start],
+                                                    args[:end])[:int]))
     @restaurant = find_restaurant(geocode(args[:end]), args[:search])
   end
 
