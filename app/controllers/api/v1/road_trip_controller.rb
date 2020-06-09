@@ -2,7 +2,7 @@ class Api::V1::RoadTripController < ApplicationController
   def create
     user = User.find_by(api_key: trip_params[:api_key])
     if !user
-      render json: RoadTripSerializer.new(user), status: :unauthorized
+      render '/road_trip/unauthorized.json', status: :unauthorized
     elsif !trip_params[:origin] || !trip_params[:destination]
       render '/road_trip/fill_fields.json', status: :bad_request
     else
