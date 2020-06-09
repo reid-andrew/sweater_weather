@@ -4,6 +4,8 @@ RSpec.describe User, type: :model do
   describe "validations" do
     it { should validate_presence_of(:email)}
     it { should validate_uniqueness_of(:email) }
+    it { should allow_value("whatever@example.com").for(:email) }
+    it { should_not allow_value("whatever").for(:email) }
     it { should validate_presence_of(:password)}
   end
 
@@ -37,6 +39,11 @@ RSpec.describe User, type: :model do
       it 'incomplete fields' do
         params = {"email": "whatever@example.com"}
         expect(User.create(params).error).to eq('Complete all fields.')
+      end
+
+      it 'general error' do
+        params = {"email": "whatever", "password": "password", "password_confirmation": "password"}
+        expect(User.create(params).error).to eq('Something went wrong. Please double check your email and password and try again.')
       end
     end
   end
