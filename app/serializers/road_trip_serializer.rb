@@ -4,6 +4,5 @@ class RoadTripSerializer
              :destination,
              :travel_time,
              :forecast_temp,
-             :forecast_description,
-             :trip_date
+             :forecast_description
 end
