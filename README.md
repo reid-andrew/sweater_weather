@@ -1,5 +1,4 @@
 # Sweater Weather
-
 This application is the final project of the [Turing School of Software and Design's](https://turing.io/) [Module 3](https://backend.turing.io/module3/). It is an API built in Ruby on Rails which authenticates users and aggregates and presents data from multiple 3rd party APIs. The application uses as PostgresQL database.
 
 ## Versions
@@ -14,7 +13,6 @@ This application is the final project of the [Turing School of Software and Desi
   1. The application endpoints will now be available on http://localhost:3000
 
 ## Endpoints
-
 GET Forecast: /api/v1/forecast?location={string}
   - returns local weather forecast from [OpenWeather](https://openweathermap.org/api) for the specified location
   
